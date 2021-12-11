@@ -1,0 +1,47 @@
+{
+    "name": "thebachtiarz/laravel-auth-v1",
+    "description": "An Authentication for Laravel Project v1",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "thebachtiarz",
+        "authentication",
+        "auth"
+    ],
+    "support": {
+        "issues": "https://github.com/thebachtiarz/laravel-auth-v1/issues",
+        "source": "https://github.com/thebachtiarz/laravel-auth-v1"
+    },
+    "authors": [
+        {
+            "name": "thebachtiarz",
+            "email": "bachtiarptibinlppnri2417@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "laravel/framework": "^8.12",
+        "thebachtiarz/laravel-toolkit-v1": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TheBachtiarz\\Auth\\": "src/"
+        },
+        "files": [
+            "helper/helper.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TheBachtiarz\\Auth\\AuthServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
