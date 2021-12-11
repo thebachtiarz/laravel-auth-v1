@@ -3,6 +3,7 @@
 namespace TheBachtiarz\Auth;
 
 use Illuminate\Support\ServiceProvider;
+use TheBachtiarz\Auth\Helper\MigrationHelper;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,12 +14,12 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // $applicationUserLogService = new ApplicationUserLogService;
+        $applicationAuthService = new ApplicationAuthService;
 
-        // $applicationUserLogService->registerConfig();
+        $applicationAuthService->registerConfig();
 
         if ($this->app->runningInConsole()) {
-            // $this->commands($applicationUserLogService->registerCommands());
+            $this->commands($applicationAuthService->registerCommands());
         }
     }
 
@@ -29,14 +30,16 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // if (app()->runningInConsole()) {
-        //     $this->publishes([
-        //         __DIR__ . '/../database/migrations' => database_path('migrations'),
-        //     ], 'userlog-migrations');
+        if (app()->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../config/' . AuthInterface::AUTH_CONFIG_NAME . '.php' => config_path(AuthInterface::AUTH_CONFIG_NAME . '.php'),
+            ], 'thebachtiarz-auth-config');
 
-        //     $this->publishes([
-        //         __DIR__ . '/../config/' . UserLogInterface::USERLOG_CONFIG_NAME . '.php' => config_path(UserLogInterface::USERLOG_CONFIG_NAME . '.php'),
-        //     ], 'userlog-config');
-        // }
+            (new MigrationHelper)->removeMigrationFiles();
+
+            $this->publishes([
+                __DIR__ . '/../database/migrations' => database_path('migrations'),
+            ], 'thebachtiarz-auth-migrations');
+        }
     }
 }

@@ -8,7 +8,7 @@ use TheBachtiarz\Auth\AuthInterface;
  * @param string|null $keyName config key name | null will return all
  * @return mixed|null
  */
-function tbuserlogconfig(?string $keyName = null)
+function tbauthconfig(?string $keyName = null)
 {
     $configName = AuthInterface::AUTH_CONFIG_NAME;
 
