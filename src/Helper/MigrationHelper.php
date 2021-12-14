@@ -2,16 +2,12 @@
 
 namespace TheBachtiarz\Auth\Helper;
 
-use Illuminate\Console\Concerns\InteractsWithIO;
 use Illuminate\Support\Facades\Log;
 
 class MigrationHelper
 {
-    use InteractsWithIO;
-
     private ?string $filePath = null;
     private string $messageOutput = "";
-    private bool $statusOutput = false;
 
     // ? Public Methods
     public function removeMigrationFiles(): bool
@@ -87,20 +83,15 @@ class MigrationHelper
 
     /**
      * show message output remove migration file.
-     * only if running in console.
      *
      * @return void
      */
     private function messageOutput(): void
     {
-        if (app()->runningInConsole()) {
-            if ($this->statusOutput)
-                $this->info($this->messageOutput);
-            else
-                $this->warn($this->messageOutput);
-        } else {
+        if (app()->runningInConsole())
+            echo $this->messageOutput;
+        else
             Log::channel('application')->debug($this->messageOutput);
-        }
     }
 
     // ? Setter Modules
