@@ -14,6 +14,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Migration status removal
+    |--------------------------------------------------------------------------
+    |
+    | Here are status condition for run migration removal.
+    | Disable if don't want to remove migration's files.
+    |
+    */
+    'migration_remove_status' => false,
+
+    /*
+    |--------------------------------------------------------------------------
     | Migration files removal
     |--------------------------------------------------------------------------
     |

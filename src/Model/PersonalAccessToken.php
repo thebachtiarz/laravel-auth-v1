@@ -8,5 +8,7 @@ use TheBachtiarz\Toolkit\Helper\App\Carbon\CarbonHelper;
 
 class PersonalAccessToken extends SanctumPersonalAccessToken
 {
-    use PersonalAccessTokenTrait, CarbonHelper;
+    use CarbonHelper;
+
+    use PersonalAccessTokenTrait;
 }

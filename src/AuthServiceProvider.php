@@ -35,11 +35,13 @@ class AuthServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/' . AuthInterface::AUTH_CONFIG_NAME . '.php' => config_path(AuthInterface::AUTH_CONFIG_NAME . '.php'),
             ], 'thebachtiarz-auth-config');
 
-            (new MigrationHelper)->removeMigrationFiles();
+            // (new MigrationHelper)->removeMigrationFiles();
 
-            $this->publishes([
-                __DIR__ . '/../database/migrations' => database_path('migrations'),
-            ], 'thebachtiarz-auth-migrations');
+            // if (tbauthconfig('migration_remove_status')) {
+            //     $this->publishes([
+            //         __DIR__ . '/../database/migrations' => database_path('migrations'),
+            //     ], 'thebachtiarz-auth-migrations');
+            // }
         }
     }
 }

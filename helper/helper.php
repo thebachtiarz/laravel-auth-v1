@@ -6,7 +6,7 @@ use TheBachtiarz\Auth\AuthInterface;
  * thebachtiarz auth config
  *
  * @param string|null $keyName config key name | null will return all
- * @return mixed|null
+ * @return mixed
  */
 function tbauthconfig(?string $keyName = null)
 {

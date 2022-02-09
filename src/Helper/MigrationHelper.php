@@ -3,19 +3,39 @@
 namespace TheBachtiarz\Auth\Helper;
 
 use Illuminate\Support\Facades\Log;
+use TheBachtiarz\Auth\AuthInterface;
+use TheBachtiarz\Toolkit\Config\Helper\ConfigHelper;
 
 class MigrationHelper
 {
+    /**
+     * file path
+     *
+     * @var string|null
+     */
     private ?string $filePath = null;
+
+    /**
+     * message output
+     *
+     * @var string
+     */
     private string $messageOutput = "";
 
     // ? Public Methods
+    /**
+     * remove migration's files process
+     *
+     * @return boolean
+     */
     public function removeMigrationFiles(): bool
     {
         $result = false;
         $message = "";
 
         try {
+            throw_if(!tbauthconfig('migration_remove_status'), 'Exception', "Migration removal process is canceled due to configuration setting.");
+
             /**
              * get all file from migration folder
              */
@@ -41,6 +61,11 @@ class MigrationHelper
                 $this->removeFile();
                 $this->messageOutput();
             }
+
+            /**
+             * disable setting after removing migration's file process is done
+             */
+            ConfigHelper::setConfigName(AuthInterface::AUTH_CONFIG_NAME)->updateConfigFile('migration_remove_status', false);
 
             $message = "Successfully remove migration's files";
             $result = true;
