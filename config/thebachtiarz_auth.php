@@ -10,7 +10,18 @@ return [
     | Available ['email', 'username']
     |
     */
-    'user_auth_identity_method' => 'username',
+    'user_auth_identity_method' => "username",
+
+    /*
+    |--------------------------------------------------------------------------
+    | Class Model User Child
+    |--------------------------------------------------------------------------
+    |
+    | Here are child class which extending the
+    | TheBachtiarz\Auth\Model\User::class.
+    |
+    */
+    'child_model_user_class' => "Apps\Models\User",
 
     /*
     |--------------------------------------------------------------------------

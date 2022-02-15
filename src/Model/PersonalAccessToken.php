@@ -3,12 +3,9 @@
 namespace TheBachtiarz\Auth\Model;
 
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
-use TheBachtiarz\Auth\Traits\PersonalAccessTokenTrait;
-use TheBachtiarz\Toolkit\Helper\App\Carbon\CarbonHelper;
+use TheBachtiarz\Auth\Traits\Model\{PersonalAccessTokenMapTrait, PersonalAccessTokenScopeTrait};
 
 class PersonalAccessToken extends SanctumPersonalAccessToken
 {
-    use CarbonHelper;
-
-    use PersonalAccessTokenTrait;
+    use PersonalAccessTokenMapTrait, PersonalAccessTokenScopeTrait;
 }

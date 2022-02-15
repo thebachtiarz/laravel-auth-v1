@@ -2,164 +2,162 @@
 
 namespace TheBachtiarz\Auth\Job;
 
-use TheBachtiarz\Auth\Interfaces\JobRuleInterface;
-use TheBachtiarz\Auth\Model\PersonalAccessToken;
-use TheBachtiarz\Auth\Model\User;
+use TheBachtiarz\Auth\Model\{PersonalAccessToken, User};
+use TheBachtiarz\Toolkit\Helper\App\Log\ErrorLogTrait;
 
 class PersonalAccessTokenJob
 {
-    //
+    use ErrorLogTrait;
+
+    /**
+     * Model User data
+     *
+     * @var User
+     */
     protected static User $user;
 
-    private static int $id;
-    private static string $username;
-
-    private static string $searchTokenBy;
+    /**
+     * token name value
+     *
+     * @var string
+     */
+    protected static string $tokenName;
 
     // ? Public Methods
-    // create method
-
     /**
-     * find access token by id
+     * get all user token
      *
-     * @return PersonalAccessToken|null
+     * @param boolean $map
+     * @return array
      */
-    public static function find(): ?PersonalAccessToken
+    public static function getTokens(bool $map = false): array
     {
-        return self::searchToken();
-    }
+        $result = ['status' => false, 'data' => null, 'message' => ''];
 
-    /**
-     * search token by User|username
-     *
-     * @return object|null
-     */
-    public static function get(): ?object
-    {
-        return self::searchTokens();
-    }
-
-    /**
-     * delete token by id
-     *
-     * @return boolean
-     */
-    public static function delete(): bool
-    {
         try {
-            return self::searchToken()->delete();
+            $_tokens = PersonalAccessToken::getOwnTokens(self::$user);
+
+            throw_if(!$_tokens->count(), 'Exception', "User does not have token");
+
+            $result['data'] = $map ? $_tokens->get()->map->simpleListMap() : $_tokens->get();
+            $result['status'] = true;
+            $result['message'] = "User token list";
         } catch (\Throwable $th) {
-            return false;
+            $result['message'] = $th->getMessage();
+
+            self::logCatch($th);
+        } finally {
+            return $result;
         }
     }
 
     /**
-     * delete token by User|username
+     * find user token by token name
      *
-     * @return boolean
+     * @param boolean $map
+     * @return array
      */
-    public static function revoke(): bool
+    public static function findToken(bool $map = false): array
     {
+        $result = ['status' => false, 'data' => null, 'message' => ''];
+
         try {
-            foreach (self::searchTokens() as $key => $token)
+            $_token = PersonalAccessToken::getOwnTokenByName(self::$user, self::$tokenName)->first();
+
+            throw_if(!$_token, 'Exception', "Token not found");
+
+            $result['data'] = $map ? $_token->simpleListMap() : $_token;
+            $result['status'] = true;
+            $result['message'] = "Token detail";
+        } catch (\Throwable $th) {
+            $result['message'] = $th->getMessage();
+
+            self::logCatch($th);
+        } finally {
+            return $result;
+        }
+    }
+
+    /**
+     * delete user token by token name
+     *
+     * @return array
+     */
+    public static function deleteToken(): array
+    {
+        $result = ['status' => false, 'data' => null, 'message' => ''];
+
+        try {
+            $_token = self::findToken();
+
+            throw_if(!$_token['status'], 'Exception', $_token['message']);
+
+            $_token['data']->delete();
+
+            $result['status'] = true;
+            $result['message'] = "Successfully delete token";
+        } catch (\Throwable $th) {
+            $result['message'] = $th->getMessage();
+
+            self::logCatch($th);
+        } finally {
+            return $result;
+        }
+    }
+
+    /**
+     * delete all user token
+     *
+     * @return array
+     */
+    public static function revokeTokens(): array
+    {
+        $result = ['status' => false, 'data' => null, 'message' => ''];
+
+        try {
+            $_tokens = self::getTokens();
+
+            throw_if(!$_tokens['status'], 'Exception', $_tokens['message']);
+
+            foreach ($_tokens['data'] as $key => &$token)
                 $token->delete();
 
-            return true;
+            $result['status'] = true;
+            $result['message'] = "Successfully revoke all user token";
         } catch (\Throwable $th) {
-            return false;
+            $result['message'] = $th->getMessage();
+
+            self::logCatch($th);
+        } finally {
+            return $result;
         }
     }
 
     // ? Private Methods
-    /**
-     * find access token by id process
-     *
-     * @return PersonalAccessToken|null
-     */
-    private static function searchToken(): ?PersonalAccessToken
-    {
-        $class = PersonalAccessToken::class;
-
-        try {
-            $result = $class::find(self::$id);
-            throw_if(!$result, 'Exception', "Token not found!");
-
-            return $result;
-        } catch (\Throwable $th) {
-            return null;
-        }
-    }
-
-    /**
-     * search token by User|username process
-     *
-     * @return object|null
-     */
-    private static function searchTokens(): ?object
-    {
-        $class = PersonalAccessToken::class;
-
-        try {
-            throw_if(!in_array(self::$searchTokenBy, [
-                JobRuleInterface::JOB_RULE_TOKEN_GET_BY_DATA_USER,
-                JobRuleInterface::JOB_RULE_TOKEN_GET_BY_VAR_USERNAME
-            ]), 'Exception', "Search by is not allowed!");
-
-            if (self::$searchTokenBy === JobRuleInterface::JOB_RULE_TOKEN_GET_BY_DATA_USER)
-                $result = $class::where('tokenable_id', self::$user->id);
-
-            if (self::$searchTokenBy === JobRuleInterface::JOB_RULE_TOKEN_GET_BY_VAR_USERNAME)
-                $result = $class::where('name', 'like', '%' . self::$username . '%');
-
-            throw_if(!$result->count(), 'Exception', "Tokens not found");
-
-            $result = $result->get();
-
-            return $result;
-        } catch (\Throwable $th) {
-            return null;
-        }
-    }
 
     // ? Setter Modules
     /**
-     * set [User] data
+     * Set model User data
      *
-     * @param User $user
+     * @param User $user Model User data
      * @return self
      */
     public static function setUser(User $user): self
     {
         self::$user = $user;
-        self::$searchTokenBy = JobRuleInterface::JOB_RULE_TOKEN_GET_BY_DATA_USER;
 
         return new self;
     }
 
     /**
-     * set id
+     * Set token name value
      *
-     * @param integer $id
+     * @param string $tokenName token name value
      * @return self
      */
-    public static function setId(int $id): self
+    public static function setTokenName(string $tokenName): self
     {
-        self::$id = $id;
-        self::$searchTokenBy = JobRuleInterface::JOB_RULE_TOKEN_GET_BY_VAR_ID;
-
-        return new self;
-    }
-
-    /**
-     * set username
-     *
-     * @param string $username
-     * @return self
-     */
-    public static function setUsername(string $username): self
-    {
-        self::$username = $username;
-        self::$searchTokenBy = JobRuleInterface::JOB_RULE_TOKEN_GET_BY_VAR_USERNAME;
+        self::$tokenName = $tokenName;
 
         return new self;
     }

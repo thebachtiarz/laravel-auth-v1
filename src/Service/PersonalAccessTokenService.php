@@ -15,16 +15,16 @@ class PersonalAccessTokenService
      *
      * @return object|null
      */
-    public static function getMyTokens(): ?object
+    public static function getMyTokens(): array
     {
         try {
             $auth = Auth::user();
 
-            $tokens = PersonalAccessTokenJob::setUser($auth)->get();
+            $_tokens = PersonalAccessTokenJob::setUser($auth)->getTokens(true);
 
-            throw_if(!count($tokens), 'Exception', "Token not found");
+            throw_if(!$_tokens['status'], 'Exception', $_tokens['message']);
 
-            return $tokens->map->simpleListMap();
+            return $_tokens['data'];
         } catch (\Throwable $th) {
             return null;
         }

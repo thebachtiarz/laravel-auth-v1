@@ -22,7 +22,7 @@
     "require": {
         "php": "^7.4|^8.0",
         "laravel/framework": "^8.12",
-        "thebachtiarz/laravel-toolkit-v1": "^1.0"
+        "thebachtiarz/laravel-toolkit-v1": "^1.1"
     },
     "autoload": {
         "psr-4": {
