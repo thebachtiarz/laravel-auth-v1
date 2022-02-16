@@ -20,13 +20,6 @@ class AuthJob
     protected static User $user;
 
     /**
-     * Facade Auth data
-     *
-     * @var Auth
-     */
-    protected static Auth $auth;
-
-    /**
      * auth identifier
      *
      * @var string
@@ -121,7 +114,7 @@ class AuthJob
         $result = ['status' => false, 'data' => null, 'message' => ''];
 
         try {
-            throw_if(!self::$auth, 'Exception', "There is no session");
+            throw_if(!Auth::user(), 'Exception', "There is no session");
 
             if (self::$authRevokeToken) {
                 /**
@@ -161,9 +154,9 @@ class AuthJob
         $result = ['status' => false, 'data' => null, 'message' => ''];
 
         try {
-            throw_if(!self::$auth, 'Exception', "There is no session");
+            throw_if(!Auth::user(), 'Exception', "There is no session");
 
-            self::$auth::logout();
+            Auth::logout();
 
             $result['status'] = true;
             $result['message'] = "Successfully logout";
@@ -263,19 +256,6 @@ class AuthJob
     public static function setUser(User $user): self
     {
         self::$user = $user;
-
-        return new self;
-    }
-
-    /**
-     * Set facade Auth data
-     *
-     * @param Auth $auth Facade Auth data
-     * @return self
-     */
-    public static function setAuth(Auth $auth): self
-    {
-        self::$auth = $auth;
 
         return new self;
     }

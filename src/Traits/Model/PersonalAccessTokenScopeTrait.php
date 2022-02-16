@@ -16,15 +16,6 @@ trait PersonalAccessTokenScopeTrait
      */
     protected User $user;
 
-    /**
-     * where conditions
-     *
-     * @var array
-     */
-    protected array $whereConditions = [
-        'tokenable_type' => "Models\User\User"
-    ];
-
     // ? Public Methods
     /**
      * get user own tokens
@@ -61,8 +52,10 @@ trait PersonalAccessTokenScopeTrait
     private function whereConditionResolver(array $whereConditionCustom = []): array
     {
         $merge = array_merge(
-            $this->whereConditions,
-            ['tokenable_id' => $this->user->id],
+            [
+                'tokenable_type' => tbauthconfig('child_model_user_class'),
+                'tokenable_id' => $this->user->id
+            ],
             $whereConditionCustom
         );
         return $merge;

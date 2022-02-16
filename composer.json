@@ -3,6 +3,7 @@
     "description": "An Authentication for Laravel Project v1",
     "type": "library",
     "license": "MIT",
+    "version": "1.0.0",
     "keywords": [
         "laravel",
         "thebachtiarz",
@@ -39,6 +40,7 @@
             ]
         }
     },
+    "homepage": "https://github.com/thebachtiarz/laravel-auth-v1",
     "config": {
         "sort-packages": true
     },

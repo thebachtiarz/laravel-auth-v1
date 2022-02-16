@@ -14,6 +14,10 @@ composer config repositories.thebachtiarz/laravel-auth-v1 git git@github.com:the
 composer require thebachtiarz/laravel-auth-v1
 ```
 
+- vendor publish
+```bash
+php artisan vendor:publish --provider="TheBachtiarz\Auth\AuthServiceProvider"
+```
 -------
 ### Feature
 

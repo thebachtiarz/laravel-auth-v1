@@ -35,6 +35,8 @@ class PersonalAccessTokenJob
         $result = ['status' => false, 'data' => null, 'message' => ''];
 
         try {
+            throw_if(!self::$user, 'Exception', "There is no session");
+
             $_tokens = PersonalAccessToken::getOwnTokens(self::$user);
 
             throw_if(!$_tokens->count(), 'Exception', "User does not have token");
@@ -62,6 +64,8 @@ class PersonalAccessTokenJob
         $result = ['status' => false, 'data' => null, 'message' => ''];
 
         try {
+            throw_if(!self::$user, 'Exception', "There is no session");
+
             $_token = PersonalAccessToken::getOwnTokenByName(self::$user, self::$tokenName)->first();
 
             throw_if(!$_token, 'Exception', "Token not found");
