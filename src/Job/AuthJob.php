@@ -114,23 +114,25 @@ class AuthJob
         $result = ['status' => false, 'data' => null, 'message' => ''];
 
         try {
-            throw_if(!Auth::user(), 'Exception', "There is no session");
+            throw_if(!Auth::check(), 'Exception', "There is no session");
+
+            $_token = self::$user;
 
             if (self::$authRevokeToken) {
                 /**
                  * revoke all logins
                  */
-                self::$user->tokens();
+                $_token = $_token->tokens();
                 $message = "Successfully Revoke All Logins";
             } else {
                 /**
                  * revoke only current login
                  */
-                self::$user->currentAccessToken();
+                $_token = $_token->currentAccessToken();
                 $message = "Successfully Logout";
             }
 
-            self::$user->delete();
+            $_token = $_token->delete();
 
             $result['status'] = true;
             $result['message'] = $message;
@@ -154,7 +156,7 @@ class AuthJob
         $result = ['status' => false, 'data' => null, 'message' => ''];
 
         try {
-            throw_if(!Auth::user(), 'Exception', "There is no session");
+            throw_if(!Auth::check(), 'Exception', "There is no session");
 
             Auth::logout();
 

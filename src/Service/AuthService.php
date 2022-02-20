@@ -40,7 +40,7 @@ class AuthService
     public static function getToken(): array
     {
         try {
-            $_getToken = AuthJob::setAuthIdentifier(self::$identifier)->setAuthPassword(self::$password)->loginToken(true);
+            $_getToken = AuthJob::setAuthIdentifier(self::$identifier)->setAuthPassword(self::$password)->loginToken();
 
             throw_if(!$_getToken['status'], 'Exception', $_getToken['message']);
 
@@ -62,7 +62,7 @@ class AuthService
     public static function getSession(): array
     {
         try {
-            $_getSession = AuthJob::setAuthIdentifier(self::$identifier)->setAuthPassword(self::$password)->loginApps(true);
+            $_getSession = AuthJob::setAuthIdentifier(self::$identifier)->setAuthPassword(self::$password)->loginApps();
 
             throw_if(!$_getSession['status'], 'Exception', $_getSession['message']);
 
@@ -80,9 +80,9 @@ class AuthService
     public function deleteToken(): array
     {
         try {
-            throw_if(!Auth::user(), 'Exception', "There is no session");
+            throw_if(!Auth::check(), 'Exception', "There is no session");
 
-            $_deleteToken = AuthJob::setUser(Auth::user())->revokeTokens(self::$revokeToken)->logoutToken(true);
+            $_deleteToken = AuthJob::setUser(Auth::user())->revokeTokens(self::$revokeToken)->logoutToken();
 
             throw_if(!$_deleteToken['status'], 'Exception', $_deleteToken['message']);
 
@@ -100,9 +100,9 @@ class AuthService
     public function deleteSession(): array
     {
         try {
-            throw_if(!Auth::user(), 'Exception', "There is no session");
+            throw_if(!Auth::check(), 'Exception', "There is no session");
 
-            $_deleteSession = AuthJob::setUser(Auth::user())->logoutApps(true);
+            $_deleteSession = AuthJob::setUser(Auth::user())->logoutApps();
 
             throw_if(!$_deleteSession['status'], 'Exception', $_deleteSession['message']);
 
@@ -147,7 +147,7 @@ class AuthService
      * @param boolean $revokeToken revoke token
      * @return self
      */
-    public static function setRevokeToken(bool $revokeToken): self
+    public static function setRevokeToken(bool $revokeToken = false): self
     {
         self::$revokeToken = $revokeToken;
 
