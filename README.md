@@ -3,7 +3,7 @@
 
 -------
 
-### Installation
+## Installation
 - composer config (only if you have access)
 ```bash
 composer config repositories.thebachtiarz/laravel-auth-v1 git git@github.com:thebachtiarz/laravel-auth-v1.git
@@ -11,7 +11,11 @@ composer config repositories.thebachtiarz/laravel-auth-v1 git git@github.com:the
 
 - install repository
 ```bash
-composer require thebachtiarz/laravel-auth-v1
+Laravel 9:
+composer require thebachtiarz/laravel-auth-v1:^2.0
+
+Laravel 8:
+composer require thebachtiarz/laravel-auth-v1:^1.0
 ```
 
 - vendor publish
@@ -19,7 +23,7 @@ composer require thebachtiarz/laravel-auth-v1
 php artisan vendor:publish --provider="TheBachtiarz\Auth\AuthServiceProvider"
 ```
 -------
-### Feature
+## Feature
 
 > sek males nulis cak :v
 -------
