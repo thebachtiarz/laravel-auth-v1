@@ -209,7 +209,7 @@ class AuthJob
         $result = ['status' => false, 'data' => null, 'message' => ''];
 
         try {
-            $_createToken = self::$user->createToken(date("Ymd") . "|" . Str::random(12));
+            $_createToken = self::$user->createToken(time() . "|" . Str::random(8));
 
             throw_if(!$_createToken, 'Exception', "Failed to create token");
 
@@ -237,7 +237,7 @@ class AuthJob
 
             throw_if(!$_accessModify, 'Exception', "Token not found");
 
-            $_accessModify->tokenable_type = tbauthconfig('child_model_user_class');
+            $_accessModify->tokenable_type = tbauthconfig('child_model_user_class') ?: User::class;
 
             $_accessModify->save();
 

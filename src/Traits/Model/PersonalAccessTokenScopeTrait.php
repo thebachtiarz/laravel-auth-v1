@@ -53,7 +53,7 @@ trait PersonalAccessTokenScopeTrait
     {
         $merge = array_merge(
             [
-                'tokenable_type' => tbauthconfig('child_model_user_class'),
+                'tokenable_type' => tbauthconfig('child_model_user_class') ?: User::class,
                 'tokenable_id' => $this->user->id
             ],
             $whereConditionCustom
