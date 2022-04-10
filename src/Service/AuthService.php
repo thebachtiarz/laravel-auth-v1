@@ -77,7 +77,7 @@ class AuthService
      *
      * @return array
      */
-    public function deleteToken(): array
+    public static function deleteToken(): array
     {
         try {
             throw_if(!Auth::check(), 'Exception', "There is no session");
@@ -97,7 +97,7 @@ class AuthService
      *
      * @return array
      */
-    public function deleteSession(): array
+    public static function deleteSession(): array
     {
         try {
             throw_if(!Auth::check(), 'Exception', "There is no session");
