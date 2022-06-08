@@ -11,21 +11,21 @@ class AuthService
     use DataResponse;
 
     /**
-     * identifier
+     * Identifier [email, username]
      *
      * @var string
      */
     private static string $identifier;
 
     /**
-     * password
+     * Password
      *
      * @var string
      */
     private static string $password;
 
     /**
-     * revoke token
+     * Revoke token
      *
      * @var boolean
      */
@@ -33,7 +33,7 @@ class AuthService
 
     // ? Public Methods
     /**
-     * get auth token
+     * Get auth token
      *
      * @return array
      */
@@ -55,7 +55,7 @@ class AuthService
     }
 
     /**
-     * get auth session
+     * Get auth session
      *
      * @return array
      */
@@ -73,7 +73,7 @@ class AuthService
     }
 
     /**
-     * delete auth token
+     * Delete auth token
      *
      * @return array
      */
@@ -93,7 +93,7 @@ class AuthService
     }
 
     /**
-     * delete auth session
+     * Delete auth session
      *
      * @return array
      */
@@ -118,7 +118,7 @@ class AuthService
     /**
      * Set identifier
      *
-     * @param string $identifier identifier
+     * @param string $identifier identifier [email, username]
      * @return self
      */
     public static function setIdentifier(string $identifier): self

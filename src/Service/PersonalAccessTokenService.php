@@ -11,7 +11,7 @@ class PersonalAccessTokenService
     use DataResponse;
 
     /**
-     * token name
+     * Token name
      *
      * @var string
      */
@@ -19,18 +19,16 @@ class PersonalAccessTokenService
 
     // ? Public Methods
     /**
-     * get own current user tokens
+     * Get own current user tokens
      *
      * @return array
      */
     public static function getMyTokens(): array
     {
         try {
-            $_authUser = Auth::user();
+            throw_if(!Auth::hasUser(), 'Exception', "There is no session");
 
-            throw_if(!$_authUser, 'Exception', "There is no session");
-
-            $_tokens = PersonalAccessTokenJob::setUser($_authUser)->getTokens(true);
+            $_tokens = PersonalAccessTokenJob::setUser(Auth::user())->getTokens(true);
 
             throw_if(!$_tokens['status'], 'Exception', $_tokens['message']);
 
@@ -41,18 +39,16 @@ class PersonalAccessTokenService
     }
 
     /**
-     * find own current user token by token name
+     * Find own current user token by token name
      *
      * @return array
      */
     public static function findMyToken(): array
     {
         try {
-            $_authUser = Auth::user();
+            throw_if(!Auth::hasUser(), 'Exception', "There is no session");
 
-            throw_if(!$_authUser, 'Exception', "There is no session");
-
-            $_token = PersonalAccessTokenJob::setUser($_authUser)->setTokenName(self::$tokenName)->findToken(true);
+            $_token = PersonalAccessTokenJob::setUser(Auth::user())->setTokenName(self::$tokenName)->findToken(true);
 
             throw_if(!$_token['status'], 'Exception', $_token['message']);
 
@@ -63,18 +59,16 @@ class PersonalAccessTokenService
     }
 
     /**
-     * delete own current user token by token name
+     * Delete own current user token by token name
      *
      * @return array
      */
     public static function deleteMyToken(): array
     {
         try {
-            $_authUser = Auth::user();
+            throw_if(!Auth::hasUser(), 'Exception', "There is no session");
 
-            throw_if(!$_authUser, 'Exception', "There is no session");
-
-            $_token = PersonalAccessTokenJob::setUser($_authUser)->setTokenName(self::$tokenName)->deleteToken(true);
+            $_token = PersonalAccessTokenJob::setUser(Auth::user())->setTokenName(self::$tokenName)->deleteToken(true);
 
             throw_if(!$_token['status'], 'Exception', $_token['message']);
 
@@ -85,18 +79,16 @@ class PersonalAccessTokenService
     }
 
     /**
-     * delete all own current user tokens
+     * Delete all own current user tokens
      *
      * @return array
      */
     public static function revokeMyTokens(): array
     {
         try {
-            $_authUser = Auth::user();
+            throw_if(!Auth::hasUser(), 'Exception', "There is no session");
 
-            throw_if(!$_authUser, 'Exception', "There is no session");
-
-            $_tokens = PersonalAccessTokenJob::setUser($_authUser)->revokeTokens(true);
+            $_tokens = PersonalAccessTokenJob::setUser(Auth::user())->revokeTokens(true);
 
             throw_if(!$_tokens['status'], 'Exception', $_tokens['message']);
 

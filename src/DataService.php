@@ -7,8 +7,8 @@ use TheBachtiarz\Auth\Interfaces\ConfigInterface;
 class DataService
 {
     /**
-     * list of config who need to registered into current project.
-     * perform by auth app module.
+     * List of config who need to registered into current project.
+     * Perform by auth app module.
      *
      * @return array
      */

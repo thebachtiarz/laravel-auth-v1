@@ -5,13 +5,13 @@ namespace TheBachtiarz\Auth;
 class ApplicationAuthService
 {
     /**
-     * list of commands from auth modules
+     * List of commands from auth modules
      */
     public const COMMANDS = [];
 
     // ? Public Methods
     /**
-     * register config
+     * Register config
      *
      * @return boolean
      */
@@ -26,7 +26,7 @@ class ApplicationAuthService
     }
 
     /**
-     * register commands
+     * Register commands
      *
      * @return array
      */
@@ -41,7 +41,7 @@ class ApplicationAuthService
 
     // ? Private Methods
     /**
-     * set configs
+     * Set configs
      *
      * @return void
      */

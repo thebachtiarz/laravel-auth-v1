@@ -7,6 +7,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here are method identity for user authentication.
+    | Available: [email, username].
     | example: email
     |
     */
@@ -19,7 +20,7 @@ return [
     |
     | Define the child class which extending the "TheBachtiarz\Auth\Model\User::class".
     | example: "App\Models\User" or \App\Models\User::class.
-    | Leave blank if not using child class.
+    | Leave null if not using child class.
     |
     */
     'child_model_user_class' => "App\Models\User",

@@ -20,21 +20,21 @@ class AuthJob
     protected static User $user;
 
     /**
-     * auth identifier
+     * Auth identifier
      *
      * @var string
      */
     protected static string $authIdentifier;
 
     /**
-     * auth password
+     * Auth password
      *
      * @var string
      */
     protected static string $authPassword;
 
     /**
-     * auth revoke token
+     * Auth revoke token
      *
      * @var boolean
      */
@@ -42,8 +42,8 @@ class AuthJob
 
     // ? Public Methods
     /**
-     * login token process.
-     * for rest api process.
+     * Login token process.
+     * For rest api process.
      *
      * @return array
      */
@@ -78,8 +78,8 @@ class AuthJob
     }
 
     /**
-     * login apps process.
-     * for web app process.
+     * Login apps process.
+     * For web app process.
      *
      * @return array
      */
@@ -104,8 +104,8 @@ class AuthJob
     }
 
     /**
-     * logout token process.
-     * for rest api process.
+     * Logout token process.
+     * For rest api process.
      *
      * @return array
      */
@@ -146,8 +146,8 @@ class AuthJob
     }
 
     /**
-     * logout apps process.
-     * for web app process.
+     * Logout apps process.
+     * For web app process.
      *
      * @return array
      */
@@ -173,7 +173,7 @@ class AuthJob
 
     // ? Private Methods
     /**
-     * login using credential
+     * Login using credential
      *
      * @return array
      */
@@ -200,7 +200,7 @@ class AuthJob
     }
 
     /**
-     * token creator resolver
+     * Token creator resolver
      *
      * @return array
      */
@@ -209,11 +209,19 @@ class AuthJob
         $result = ['status' => false, 'data' => null, 'message' => ''];
 
         try {
+            if (tbauthconfig('child_model_user_class')) {
+                throw_if(
+                    !class_exists(tbauthconfig('child_model_user_class')),
+                    'Exception',
+                    sprintf("Class '%s' is not defined", tbauthconfig('child_model_user_class'))
+                );
+            }
+
             $_createToken = self::$user->createToken(time() . "|" . Str::random(8));
 
             throw_if(!$_createToken, 'Exception', "Failed to create token");
 
-            $_createToken = self::tokenableMutatorModify($_createToken);
+            $_createToken = self::tokenableModify($_createToken);
 
             $result['status'] = true;
             $result['data'] = $_createToken->plainTextToken;
@@ -225,12 +233,12 @@ class AuthJob
     }
 
     /**
-     * tokenable modifier for apply child user class
+     * Tokenable modifier for apply child user class
      *
      * @param NewAccessToken $newAccessToken
      * @return NewAccessToken
      */
-    private static function tokenableMutatorModify(NewAccessToken $newAccessToken): NewAccessToken
+    private static function tokenableModify(NewAccessToken $newAccessToken): NewAccessToken
     {
         try {
             $_accessModify = PersonalAccessToken::find($newAccessToken->accessToken->id);

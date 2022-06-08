@@ -17,7 +17,7 @@ class PersonalAccessTokenJob
     protected static User $user;
 
     /**
-     * token name value
+     * Token name value
      *
      * @var string
      */
@@ -25,7 +25,7 @@ class PersonalAccessTokenJob
 
     // ? Public Methods
     /**
-     * get all user token
+     * Get all user token
      *
      * @param boolean $map
      * @return array
@@ -54,7 +54,7 @@ class PersonalAccessTokenJob
     }
 
     /**
-     * find user token by token name
+     * Find user token by token name
      *
      * @param boolean $map
      * @return array
@@ -83,7 +83,7 @@ class PersonalAccessTokenJob
     }
 
     /**
-     * delete user token by token name
+     * Delete user token by token name
      *
      * @return array
      */
@@ -110,7 +110,7 @@ class PersonalAccessTokenJob
     }
 
     /**
-     * delete all user token
+     * Delete all user token
      *
      * @return array
      */

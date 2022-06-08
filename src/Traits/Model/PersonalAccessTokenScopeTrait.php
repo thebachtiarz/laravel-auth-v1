@@ -18,7 +18,7 @@ trait PersonalAccessTokenScopeTrait
 
     // ? Public Methods
     /**
-     * get user own tokens
+     * Get user own tokens
      *
      * @param User $user
      * @return object|null
@@ -31,7 +31,7 @@ trait PersonalAccessTokenScopeTrait
     }
 
     /**
-     * get token by user model and token name
+     * Get token by user model and token name
      *
      * @param User $user
      * @param string $tokenName
@@ -44,7 +44,7 @@ trait PersonalAccessTokenScopeTrait
 
     // ? Private Methods
     /**
-     * where condition resolver
+     * Where condition resolver
      *
      * @param array $whereConditionCustom default: []
      * @return array

@@ -6,17 +6,20 @@ use Illuminate\Support\Facades\Log;
 use TheBachtiarz\Auth\AuthInterface;
 use TheBachtiarz\Toolkit\Config\Helper\ConfigHelper;
 
+/**
+ * @deprecated 2.0.5 Do not use this class because of security.
+ */
 class MigrationHelper
 {
     /**
-     * file path
+     * File path
      *
      * @var string|null
      */
     private ?string $filePath = null;
 
     /**
-     * message output
+     * Message output
      *
      * @var string
      */
@@ -24,7 +27,7 @@ class MigrationHelper
 
     // ? Public Methods
     /**
-     * remove migration's files process
+     * Remove migration's files process
      *
      * @return boolean
      */
@@ -37,13 +40,13 @@ class MigrationHelper
             throw_if(!tbauthconfig('migration_remove_status'), 'Exception', "Migration removal process is canceled due to configuration setting.");
 
             /**
-             * get all file from migration folder
+             * Get all file from migration folder
              */
             $migrationFiles = glob(database_path("migrations/*.php"));
             throw_if(!count($migrationFiles), 'Exception', "There is no migration files");
 
             /**
-             * search for files to delete
+             * Search for files to delete
              */
             $removeFounds = [];
             foreach ($migrationFiles as $migrationKey => $migration)
@@ -54,7 +57,7 @@ class MigrationHelper
             throw_if(!count($removeFounds), 'Exception', "There is no any migration's file match with your config");
 
             /**
-             * delete files process
+             * Delete files process
              */
             foreach ($removeFounds as $key => $found) {
                 $this->filePath = $migrationFiles[$found];
@@ -63,7 +66,7 @@ class MigrationHelper
             }
 
             /**
-             * disable setting after removing migration's file process is done
+             * Disable setting after removing migration's file process is done
              */
             ConfigHelper::setConfigName(AuthInterface::AUTH_CONFIG_NAME)->updateConfigFile('migration_remove_status', false);
 
@@ -80,7 +83,7 @@ class MigrationHelper
 
     // ? Private Methods
     /**
-     * remove file process
+     * Remove file process
      *
      * @return boolean
      */
@@ -107,7 +110,7 @@ class MigrationHelper
     }
 
     /**
-     * show message output remove migration file.
+     * Show message output remove migration file.
      *
      * @return void
      */

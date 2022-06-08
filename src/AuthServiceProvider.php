@@ -8,7 +8,7 @@ use TheBachtiarz\Auth\Helper\MigrationHelper;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * register module userlog
+     * Register module userlog
      *
      * @return void
      */
@@ -24,7 +24,7 @@ class AuthServiceProvider extends ServiceProvider
     }
 
     /**
-     * boot module userlog
+     * Boot module userlog
      *
      * @return void
      */

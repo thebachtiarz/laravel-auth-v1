@@ -2,7 +2,7 @@
 
 namespace TheBachtiarz\Auth\Job;
 
-use Illuminate\Support\Facades\{Auth, Hash};
+use Illuminate\Support\Facades\Hash;
 use TheBachtiarz\Auth\Model\User;
 use TheBachtiarz\Toolkit\Helper\App\Log\ErrorLogTrait;
 
@@ -11,37 +11,36 @@ class UserJob
     use ErrorLogTrait;
 
     /**
-     * Model User ddata
+     * Model User data
      *
      * @var User
      */
     protected static User $user;
 
     /**
-     * old password.
+     * Old password.
      *
      * @var string
      */
     protected static string $oldPassword;
 
     /**
-     * new password
+     * New password
      *
      * @var string
      */
     protected static string $newPassword;
 
     /**
-     * validate with old password
+     * Validate old password
      *
      * @var boolean
      */
-    protected static bool $validateWithOldPassword = false;
+    protected static bool $validateOldPassword = false;
 
     // ? Public Methods
-
     /**
-     * change password
+     * Change password process
      *
      * @return array
      */
@@ -50,13 +49,11 @@ class UserJob
         $result = ['status' => false, 'data' => null, 'message' => ''];
 
         try {
-            throw_if(!Auth::check(), 'Exception', "There is no session");
-
             /**
              * validate old password.
-             * if validateWithOldPassword = true.
+             * if validateOldPassword = true.
              */
-            if (self::$validateWithOldPassword)
+            if (self::$validateOldPassword)
                 throw_if(!Hash::check(self::$oldPassword, self::$user->password), 'Exception', "Incorrect old password");
 
             /**
@@ -74,11 +71,6 @@ class UserJob
              */
             self::$user->tokens()->delete();
 
-            /**
-             * logout current session
-             */
-            Auth::logout();
-
             $result['status'] = true;
             $result['message'] = "Successfully change password";
         } catch (\Throwable $th) {
@@ -93,11 +85,10 @@ class UserJob
     // ? Private Methods
 
     // ? Setter Modules
-
     /**
-     * Set model User ddata
+     * Set model User data
      *
-     * @param User $user Model User ddata
+     * @param User $user Model User data
      * @return self
      */
     public static function setUser(User $user): self
@@ -109,7 +100,6 @@ class UserJob
 
     /**
      * Set old password.
-     * require: UserJob::setValidateWithOldPassword(true)
      *
      * @param string $oldPassword old password.
      * @return self
@@ -117,6 +107,7 @@ class UserJob
     public static function setOldPassword(string $oldPassword): self
     {
         self::$oldPassword = $oldPassword;
+        self::$validateOldPassword = true;
 
         return new self;
     }
@@ -130,19 +121,6 @@ class UserJob
     public static function setNewPassword(string $newPassword): self
     {
         self::$newPassword = $newPassword;
-
-        return new self;
-    }
-
-    /**
-     * Set validate with old password
-     *
-     * @param boolean $validateWithOldPassword validate with old password
-     * @return self
-     */
-    public static function setValidateWithOldPassword(bool $validateWithOldPassword = false): self
-    {
-        self::$validateWithOldPassword = $validateWithOldPassword;
 
         return new self;
     }

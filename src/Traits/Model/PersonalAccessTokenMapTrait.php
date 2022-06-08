@@ -12,14 +12,14 @@ trait PersonalAccessTokenMapTrait
     use CarbonHelper;
 
     /**
-     * personal access token simple list map
+     * Personal access token simple list map
      *
      * @return array
      */
     public function simpleListMap(): array
     {
         return [
-            'identifier' => $this->name,
+            'token_name' => $this->name,
             'created' => $this->created_at,
             'last_used' => $this->last_used_at ? self::humanDateTime($this->last_used_at) : '-'
         ];
