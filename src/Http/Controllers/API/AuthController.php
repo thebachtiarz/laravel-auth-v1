@@ -3,7 +3,7 @@
 namespace TheBachtiarz\Auth\Http\Controllers\API;
 
 use Illuminate\Http\Response;
-use TheBachtiarz\Auth\Controllers\Controller;
+use TheBachtiarz\Auth\Http\Controllers\Controller;
 use TheBachtiarz\Auth\Http\Requests\{LoginApiRequest, LogoutApiRequest, TokenNameApiRequest};
 use TheBachtiarz\Auth\Service\{AuthService, PersonalAccessTokenService};
 use TheBachtiarz\Toolkit\Helper\App\Response\DataResponse;

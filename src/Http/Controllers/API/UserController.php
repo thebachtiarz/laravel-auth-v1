@@ -3,7 +3,7 @@
 namespace TheBachtiarz\Auth\Http\Controllers\API;
 
 use Illuminate\Http\Response;
-use TheBachtiarz\Auth\Controllers\Controller;
+use TheBachtiarz\Auth\Http\Controllers\Controller;
 use TheBachtiarz\Auth\Http\Requests\{UpdatePasswordAuthRequest, UpdatePasswordGuestRequest};
 use TheBachtiarz\Auth\Service\UserService;
 use TheBachtiarz\Toolkit\Helper\App\Response\DataResponse;

@@ -20,7 +20,7 @@ trait PersonalAccessTokenMapTrait
     {
         return [
             'token_name' => $this->name,
-            'created' => $this->created_at,
+            'created' => self::humanDateTime($this->created_at),
             'last_used' => $this->last_used_at ? self::humanDateTime($this->last_used_at) : '-'
         ];
     }
